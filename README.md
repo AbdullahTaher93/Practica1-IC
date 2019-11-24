@@ -12,6 +12,8 @@ These breakthroughs have allowed machines to match and exceed the capabilities o
 
 ### Neural Network Types
 
+![NNstypes](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/NNTypes.png)
+
 we can read more about NNs types [here](https://towardsdatascience.com/the-mostly-complete-chart-of-neural-networks-explained-3fb6f2367464).
 
 
