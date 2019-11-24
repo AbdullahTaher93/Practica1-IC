@@ -56,3 +56,25 @@ We can show the database summary using.
     print('Test: X=%s, y=%s' % (testX.shape, testy.shape))
 
 ![summary](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/summary.jpg)
+
+A plot of the first nine images in the dataset is also we can create showing the natural handwritten nature of the images to be classified.
+
+    # plot first few images
+    for i in range(9):
+        # define subplot
+        pyplot.subplot(330 + 1 + i)
+        # plot raw pixel data
+        pyplot.imshow(trainX[i], cmap=pyplot.get_cmap('gray'))
+    # show the figure
+    pyplot.show()
+
+
+![nineimages](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/nineImages.png)
+
+
+### Model Evaluation Methodology
+
+#### 1.Baseline Model
+
+
+
