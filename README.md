@@ -190,12 +190,126 @@ We will create a single figure with two subplots, one for loss and one for accur
 
 The summarize_performance() function below implements this for a given list of scores collected during model evaluation.
 
-# summarize model performance
-def summarize_performance(scores):
-	# print summary
-	print('Accuracy: mean=%.3f std=%.3f, n=%d' % (mean(scores)*100, std(scores)*100, len(scores)))
-	# box and whisker plots of results
-	pyplot.boxplot(scores)
-	pyplot.show()
+    # summarize model performance
+    def summarize_performance(scores):
+        # print summary
+        print('Accuracy: mean=%.3f std=%.3f, n=%d' % (mean(scores)*100, std(scores)*100, len(scores)))
+        # box and whisker plots of results
+        pyplot.boxplot(scores)
+        pyplot.show()
+
+We need a function that will drive the test harness.
+
+This involves calling all of the define functions.
+
+    # run the test harness for evaluating a model
+    def run_test_harness():
+        # load dataset
+        trainX, trainY, testX, testY = load_dataset()
+        # prepare pixel data
+        trainX, testX = prep_pixels(trainX, testX)
+        # define model
+        model = define_model()
+        # evaluate model
+        scores, histories = evaluate_model(model, trainX, trainY)
+        # learning curves
+        summarize_diagnostics(histories)
+        # summarize estimated performance
+        summarize_performance(scores)
+    # entry point, run the test harness
+    run_test_harness()
+
+Running the example prints the classification accuracy for each fold of the cross-validation process. This is helpful to get an idea that the model evaluation is progressing.
+
+We can see two cases where the model achieves perfect skill and one case where it achieved lower than 99% accuracy. These are good results.
+
+
+![acc](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/acc.jpg)
+
+Next, a diagnostic plot is shown, giving insight into the learning behavior of the model across each fold.
+
+In this case, we can see that the model generally achieves a good fit, with train and test learning curves converging. There is no obvious sign of over- or underfitting.
+
+![AccFigure](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure.jpeg)
+
+
+Next, a summary of the model performance is calculated. We can see in this case, the model has an estimated skill of about 99.6%, which is impressive, although it has a high standard deviation of about half a percent.
+
+
+Accuracy: mean=99.668 std=0.591, n=5
+
+
+#### Improvement to Learning
+
+[Batch normalization](https://en.wikipedia.org/wiki/Batch_normalization) is a technique designed to automatically standardize the inputs to a layer in a deep learning neural network.
+
+Once implemented, batch normalization has the effect of dramatically accelerating the training process of a neural network, and in some cases improves the performance of the model via a modest regularization effect.
+
+Batch normalization can be used after convolutional and fully connected layers. It has the effect of changing the distribution of the output of the layer, specifically by standardizing the outputs. This has the effect of stabilizing and accelerating the learning process.
+
+We can update the model definition to use batch normalization after the activation function for the convolutional and dense layers of our baseline model. The updated version of define_model() function with batch normalization is listed below.
+
+    # define cnn model
+    def define_model():
+        model = Sequential()
+        model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', input_shape=(28, 28, 1)))
+        model.add(BatchNormalization())
+        model.add(MaxPooling2D((2, 2)))
+        model.add(Flatten())
+        model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
+        model.add(BatchNormalization())
+        model.add(Dense(10, activation='softmax'))
+        # compile model
+        opt = SGD(lr=0.01, momentum=0.9)
+        model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+        return model
+
+Running the example again reports model performance for each fold of the cross-validation process.
+
+We can see perhaps a small drop in model performance as compared to the baseline across the cross-validation folds.
+
+
+![AccFigure3](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure3.jpg)
+
+A plot of the learning curves is created, in this case showing that the speed of learning (improvement over epochs) does not appear to be different from the baseline model.
+
+The plots suggest that batch normalization, at least as implemented in this case, does not offer any benefit.
+
+![AccFigure4](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure.png)
+
+
+#### Increase in Model Depth
+
+There are Two common ways, changing the capacity of the feature extraction part of the model or changing the capacity or function of the classifier part of the model. Perhaps the point of biggest influence is a change to the feature extractor.
+
+We can increase the depth of the feature extractor part of the model, following a VGG-like pattern of adding more convolutional and pooling layers with the same sized filter, while increasing the number of filters. In this case, we will add a double convolutional layer with 64 filters each, followed by another max pooling layer.
+
+    # define cnn model
+    def define_model():
+        model = Sequential()
+        model.add(Conv2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', input_shape=(28, 28, 1)))
+        model.add(MaxPooling2D((2, 2)))
+        model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform'))
+        model.add(Conv2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform'))
+        model.add(MaxPooling2D((2, 2)))
+        model.add(Flatten())
+        model.add(Dense(100, activation='relu', kernel_initializer='he_uniform'))
+        model.add(Dense(10, activation='softmax'))
+        # compile model
+        opt = SGD(lr=0.01, momentum=0.9)
+        model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
+        return model
+
+Running the example reports model performance for each fold of the cross-validation process.
+
+The per-fold scores may suggest some improvement over the baseline.
+
+![AccFigure5](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure3.jpg)
+
+
+![AccFigure6](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure.png)
+
+
+
 
 
