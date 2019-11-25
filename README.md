@@ -141,3 +141,61 @@ We will use a conservative configuration for the stochastic gradient descent opt
 
 #### Evaluation
 
+The model will be evaluated using five-fold cross-validation. The value of k=5 was chosen to provide a baseline for both repeated evaluation and to not be so large as to require a long running time. Each test set will be 20% of the training dataset, or about 12,000 examples, close to the size of the actual test set for this problem.
+
+We will train the baseline model for a modest 10 training epochs with a default batch size of 32 examples. The test set for each fold will be used to evaluate the model both during each epoch of the training run, so that we can later create learning curves, and at the end of the run, so that we can estimate the performance of the model. As such, we will keep track of the resulting history from each run, as well as the classification accuracy of the fold.
+
+The evaluate_model() function below implements these behaviors, taking the defined model and training dataset as arguments and returning a list of accuracy scores and training histories that can be later summarized.
+
+    # evaluate a model using k-fold cross-validation
+    def evaluate_model(model, dataX, dataY, n_folds=5):
+        scores, histories = list(), list()
+        # prepare cross validation
+        kfold = KFold(n_folds, shuffle=True, random_state=1)
+        # enumerate splits
+        for train_ix, test_ix in kfold.split(dataX):
+            # select rows for train and test
+            trainX, trainY, testX, testY = dataX[train_ix], dataY[train_ix], dataX[test_ix], dataY[test_ix]
+            # fit model
+            history = model.fit(trainX, trainY, epochs=10, batch_size=32, validation_data=(testX, testY), verbose=0)
+            # evaluate model
+            _, acc = model.evaluate(testX, testY, verbose=0)
+            print('> %.3f' % (acc * 100.0))
+            # stores scores
+            scores.append(acc)
+            histories.append(history)
+        return scores, histories
+
+#### Present Results
+
+First, the diagnostics involve creating a line plot showing model performance on the train and test set during each fold of the k-fold cross-validation. These plots are valuable for getting an idea of whether a model is overfitting, underfitting, or has a good fit for the dataset.
+
+We will create a single figure with two subplots, one for loss and one for accuracy. Blue lines will indicate model performance on the training dataset and orange lines will indicate performance on the hold out test dataset. The summarize_diagnostics() function below creates and shows this plot given the collected training histories.
+
+
+    # plot diagnostic learning curves
+    def summarize_diagnostics(histories):
+        for i in range(len(histories)):
+            # plot loss
+            pyplot.subplot(211)
+            pyplot.title('Cross Entropy Loss')
+            pyplot.plot(histories[i].history['loss'], color='blue', label='train')
+            pyplot.plot(histories[i].history['val_loss'], color='orange', label='test')
+            # plot accuracy
+            pyplot.subplot(212)
+            pyplot.title('Classification Accuracy')
+            pyplot.plot(histories[i].history['acc'], color='blue', label='train')
+            pyplot.plot(histories[i].history['val_acc'], color='orange', label='test')
+        pyplot.show()
+
+The summarize_performance() function below implements this for a given list of scores collected during model evaluation.
+
+# summarize model performance
+def summarize_performance(scores):
+	# print summary
+	print('Accuracy: mean=%.3f std=%.3f, n=%d' % (mean(scores)*100, std(scores)*100, len(scores)))
+	# box and whisker plots of results
+	pyplot.boxplot(scores)
+	pyplot.show()
+
+
