@@ -72,7 +72,7 @@ A plot of the first nine images in the dataset is also we can create showing the
 ![nineimages](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/nineImages.png)
 
 
-### Model Evaluation Methodology
+## Model Evaluation Methodology
 
 #### 1.Baseline Model
 
@@ -239,7 +239,9 @@ Next, a summary of the model performance is calculated. We can see in this case,
 Accuracy: mean=99.668 std=0.591, n=5
 
 
-#### Improvement to Learning
+The Python File you can find it [here](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/ICPRACTICA1/testing.py)
+
+### Improvement to Learning
 
 [Batch normalization](https://en.wikipedia.org/wiki/Batch_normalization) is a technique designed to automatically standardize the inputs to a layer in a deep learning neural network.
 
@@ -278,6 +280,9 @@ The plots suggest that batch normalization, at least as implemented in this case
 ![AccFigure4](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure4.png)
 
 
+The Python File you can find it [here](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/ICPRACTICA1/batch.py)
+
+
 #### Increase in Model Depth
 
 There are Two common ways, changing the capacity of the feature extraction part of the model or changing the capacity or function of the classifier part of the model. Perhaps the point of biggest influence is a change to the feature extractor.
@@ -309,6 +314,7 @@ The per-fold scores may suggest some improvement over the baseline.
 
 ![AccFigure6](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure6.png)
 
+The Python File you can find it [here](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/ICPRACTICA1/depthIncrease.py)
 
 _
 ## Bibliography
