@@ -310,6 +310,17 @@ The per-fold scores may suggest some improvement over the baseline.
 ![AccFigure6](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure6.png)
 
 
+_
+## Bibliography
+_____________________________________________________________________
+
+1- https://www.digitalocean.com/community/tutorials/how-to-build-a-neural-network-to-recognize-handwritten-digits-with-tensorflow
+
+
+2- https://machinelearningmastery.com/how-to-develop-a-convolutional-neural-network-from-scratch-for-mnist-handwritten-digit-classification/
+
+3- https://towardsdatascience.com/the-mostly-complete-chart-of-neural-networks-explained-3fb6f2367464
+
 
 
 
