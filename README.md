@@ -275,7 +275,7 @@ A plot of the learning curves is created, in this case showing that the speed of
 
 The plots suggest that batch normalization, at least as implemented in this case, does not offer any benefit.
 
-![AccFigure4](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure.png)
+![AccFigure4](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure4.png)
 
 
 #### Increase in Model Depth
@@ -304,10 +304,10 @@ Running the example reports model performance for each fold of the cross-validat
 
 The per-fold scores may suggest some improvement over the baseline.
 
-![AccFigure5](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure3.jpg)
+![AccFigure5](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure5.jpg)
 
 
-![AccFigure6](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure.png)
+![AccFigure6](https://github.com/AbdullahTaher93/Practica1-IC/blob/master/images/AccFigure6.png)
 
 
 
